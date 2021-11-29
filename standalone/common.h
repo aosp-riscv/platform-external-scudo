@@ -109,6 +109,12 @@ inline void yieldProcessor(u8 Count) {
   __asm__ __volatile__("" ::: "memory");
   for (u8 I = 0; I < Count; I++)
     __asm__ __volatile__("yield");
+#elif __riscv_xlen == 64
+  // FIXME: not sure if this does work, just to elimiate the error:
+  // unused parameter 'Count' [-Werror,-Wunused-parameter]
+  __asm__ __volatile__("" ::: "memory");
+  for (u8 I = 0; I < Count; I++)
+    __asm__ __volatile__("nop");
 #endif
   __asm__ __volatile__("" ::: "memory");
 }
